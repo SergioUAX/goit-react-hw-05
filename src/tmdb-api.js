@@ -17,8 +17,7 @@ export const fetchMoviesWithTopic = async (page, topic) => {
   const response = await axios.get('3/search/movie', {
     headers: {      
       Authorization: "Bearer " + accessKey,
-      accept: 'application/json',
-      include_adult: false,
+      accept: 'application/json',      
       page: page,
       query: topic,
     },

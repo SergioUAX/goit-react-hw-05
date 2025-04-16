@@ -1,6 +1,5 @@
 import { Routes, Route, NavLink } from "react-router-dom";
 import { useState, useEffect } from 'react';
-// import { Toaster } from 'react-hot-toast';
 import clsx from 'clsx';
 import styles from './App.module.css';
 import HomePage from '../../pages/HomePage/HomePage';
@@ -65,7 +64,24 @@ function App() {
       }
     };
     fetchMovies();
-    }, [topic]);
+  }, [topic]);
+  
+  const handleLoadMore = async () => {
+      if (topic.trim() === '') {
+        ErrorMessage("Please enter a search topic !!!");
+        return;
+      }
+      try {
+        setLoading(true);
+        const data = await fetchMoviesWithTopic(page, topic);
+        setMovies((prevMovies) => [...prevMovies, ...data.results]);
+        setPage((prevPage) => prevPage + 1);
+      } catch (err) {
+        ErrorMessage(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
 
   return (
     <div>
@@ -80,8 +96,21 @@ function App() {
       <Toaster />
 
       <Routes>
-        <Route path="/" element={<HomePage movies={movies} loading={loading} />} />
-        <Route path="/moviespage" element={<MoviesPage movies={movies} loading={loading} handleSearch={handleSearch} />} />
+        <Route path="/" element={
+          <HomePage
+            movies={movies}
+            loading={loading}
+            handleLoadMore={handleLoadMore}
+          />}
+        />
+        <Route path="/moviespage" element={
+          <MoviesPage
+            movies={movies}
+            loading={loading}
+            handleSearch={handleSearch}
+            handleLoadMore={handleLoadMore}
+          />}
+        />
         <Route path="/moviedetailspage" element={<MovieDetailsPage />} >
           <Route path="moviecast" element={<MovieCast />} />
           <Route path="moviereviews" element={<MovieReviews />} />

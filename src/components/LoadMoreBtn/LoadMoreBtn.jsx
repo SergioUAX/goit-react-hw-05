@@ -1,6 +1,6 @@
 import styles from './LoadMoreBtn.module.css';
 
-export const LoadMoreBtn = ({ onLoadMore }) => {
+const LoadMoreBtn = ({ onLoadMore }) => {
   const handleOnClick = (evt) => {
         evt.preventDefault(); 
         onLoadMore();  
@@ -12,3 +12,5 @@ export const LoadMoreBtn = ({ onLoadMore }) => {
         </div>
   );
 };
+
+export default LoadMoreBtn;
