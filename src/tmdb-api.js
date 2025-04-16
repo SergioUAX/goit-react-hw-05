@@ -13,15 +13,15 @@ export const fetchTrendingMovies = async () => {
   return response.data;
 };
 
-// export const fetchMovieWithTopic = async (page, perPage, topic) => {
-//   const response = await axios.get('3/search/movie', {
-//     params: {
-//       page: page,
-//       per_page: perPage,
-//       client_id: accessKey,
-//       query: topic,
-//       orientation: 'landscape',
-//     },
-//   });
-//   return response.data;
-// };
+export const fetchMoviesWithTopic = async (page, topic) => {
+  const response = await axios.get('3/search/movie', {
+    headers: {      
+      Authorization: "Bearer " + accessKey,
+      accept: 'application/json',
+      include_adult: false,
+      page: page,
+      query: topic,
+    },
+  });
+  return response.data;
+};
