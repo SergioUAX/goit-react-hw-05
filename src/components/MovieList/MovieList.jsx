@@ -1,9 +1,14 @@
 import styles from './MovieList.module.css';
 
-const MovieList = () => {
+const MovieList = ({ movies }) => {
     return (
-        <div className={styles.movielist}>            
-        </div>
+        <ul className={styles.movielist}>   
+            {movies.map((movie) => (
+                <li key={movie.id} onClick={() => onImageClick(image)}>
+                    <p>{movie.title}</p>
+                </li>
+            ))}
+        </ul>
     );
 };
 
