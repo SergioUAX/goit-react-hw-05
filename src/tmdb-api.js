@@ -25,11 +25,8 @@ const fetchMovies = async (request, topic, page) => {
       Link = `${apiBaseURL}3/movie/${topic}/credits?language=en-US`;
       break;
     case 'reviews':
-      Link = `${apiBaseURL}3/movie/${topic}/credits?language=en-US`;
-      break;
-    case 'cast':
       Link = `${apiBaseURL}3/movie/${topic}/reviews?language=en-US&page=${page}`;
-      break;
+      break;    
     default: 
       Link = `${apiBaseURL}3/trending/movie/day?language=en-EN&page=${page}`;
       break;

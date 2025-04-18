@@ -1,23 +1,26 @@
 import { Routes, Route} from "react-router-dom";
 import { useState, useEffect } from 'react';
 import { Toaster } from "react-hot-toast";
+import { Suspense, lazy } from 'react';
 import styles from './App.module.css';
-import HomePage from '../../pages/HomePage/HomePage';
-import MoviesPage from '../../pages/MoviesPage/MoviesPage';
-import MovieDetailsPage from '../../pages/MovieDetailsPage/MovieDetailsPage';
-import NotFoundPage from '../NotFoundPage/NotFoundPage';
-import MovieCast from '../MovieCast/MovieCast';
-import MovieReviews from '../MovieReviews/MovieReviews';
 import ErrorMessage from "../ErrorMessage/ErrorMessage";
+import Loader from "../Loader/Loader";
 import Navigation from "../Navigation/Navigation";
 import fetchMovies from "../../tmdb-api";
 
-
+const HomePage = lazy(() => import('../../pages/HomePage/HomePage'));
+const MoviesPage = lazy(() => import('../../pages/MoviesPage/MoviesPage'));
+const MovieDetailsPage = lazy(() => import('../../pages/MovieDetailsPage/MovieDetailsPage'));
+const MovieCast = lazy(() => import('../MovieCast/MovieCast'));
+const MovieReviews = lazy(() => import('../MovieReviews/MovieReviews'));
+const NotFoundPage = lazy(() => import('../NotFoundPage/NotFoundPage'));
 
 function App() {
   const [movies, setMovies] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [page, setPage] = useState(1);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  //const [page, setPage] = useState(1);
   const [topic, setTopic] = useState('');
   const [request, setRequest] = useState('');
 
@@ -28,61 +31,30 @@ function App() {
       }  
       setMovies([]);
       setTopic(searchTopic);
-  };
+  };  
   
   useEffect(() => {
-    const getMovies = async (request, topic, page) => {
+    const loadTrending = async () => {
       try {
         setLoading(true);
-        const data = await fetchMovies(request, topic, page);
+        const data = await fetchMovies('trending','',currentPage);
         setMovies(data.results);
-        setPage(2);        
+        setTotalPages(data.total_pages);
       } catch (err) {
         ErrorMessage(err.message);
       } finally {
         setLoading(false);
       }
     };
-    getMovies(request, topic, 1);
-  }, []);
-  
-  useEffect(() => {
-    // const fetchMovies = async () => {
-    //   if (topic.trim() === '') return;  
-    //   try {
-    //     setLoading(true);
-    //     const data = await fetchMoviesWithTopic(1, topic);
-    //     console.log('MOVIES WITH TOPIC ', topic, 'ARE: ', data.results);
-    //     setImages(data.results);
-    //     setPage(2);
-    //   } catch (err) {
-    //     ErrorMessage(err.message);
-    //   } finally {
-    //     setLoading(false);
-    //   }
-    // };
-    // fetchMovies();
-  }, [topic]);
-  
-  const handleLoadMore = async () => {
-      // if (topic.trim() === '') {
-      //   ErrorMessage("Please enter a search topic !!!");
-      //   return;
-      // }
-      // try {
-      //   setLoading(true);
-      //   const data = await fetchMoviesWithTopic(page, topic);
-      //   setMovies((prevMovies) => [...prevMovies, ...data.results]);
-      //   setPage((prevPage) => prevPage + 1);
-      // } catch (err) {
-      //   ErrorMessage(err.message);
-      // } finally {
-      //   setLoading(false);
-      // }
-    };
+    loadTrending();
+  }, [currentPage]);
 
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
+  };
+      
   return (
-    <div>
+    <Suspense fallback={<Loader />}>
       <Navigation />
       <Toaster />
 
@@ -90,7 +62,10 @@ function App() {
         <Route path="/" element={
           <HomePage
             movies={movies}
-            loading={loading}            
+            loading={loading}
+            currentPage={currentPage}
+            totalPages={totalPages}
+            onPageChange={handlePageChange}
           />}
         />
         <Route path="/moviespage" element={
@@ -100,14 +75,14 @@ function App() {
             handleSearch={handleSearch}
           />}
         />
-        <Route path="/moviedetailspage" element={<MovieDetailsPage />} >
-          <Route path="moviecast" element={<MovieCast />} />
-          <Route path="moviereviews" element={<MovieReviews />} />
+        <Route path="/movies/:movieId/*" element={<MovieDetailsPage />} >
+          <Route path="cast" element={<MovieCast />} />
+          <Route path="reviews" element={<MovieReviews />} />
         </Route>
         <Route path="*" element={<NotFoundPage />} />
       </Routes>     
       
-    </div>   
+    </Suspense>  
 
   );
 };
