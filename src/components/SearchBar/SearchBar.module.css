@@ -1,0 +1,13 @@
+.searchbar {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.searchbar input {
+    flex: 1;
+}
+
+.searchbar button {
+    flex-shrink: 0;
+}

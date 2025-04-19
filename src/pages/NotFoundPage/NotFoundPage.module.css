@@ -1,0 +1,10 @@
+.notfoundpage {
+    text-align: center;
+    padding: 40px;
+}
+
+.notfoundpage img {
+    max-width: 100%;
+    height: auto;
+    margin-top: 20px;
+}

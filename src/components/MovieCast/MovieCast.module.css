@@ -1,0 +1,17 @@
+.moviecast {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    padding: 0;
+    list-style: none;
+}
+
+.moviecast li {
+    width: 100px;
+    text-align: center;
+}
+
+.moviecast img {
+    width: 100%;
+    border-radius: var(--border-radius);
+}

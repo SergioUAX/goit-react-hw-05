@@ -1,0 +1,17 @@
+.moviereviews {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.moviereviews li h4 {
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.moviereviews li p {
+    font-size: var(--font-size-sm);
+    color: var(--color-light);
+}

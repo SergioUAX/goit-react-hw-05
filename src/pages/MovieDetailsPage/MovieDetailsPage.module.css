@@ -1,0 +1,34 @@
+.moviedetailspage {
+    padding: 20px;
+}
+
+.detailsContainer {
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+.detailsContainer img {
+    width: 300px;
+    border-radius: var(--border-radius);
+}
+
+.movieInfo {
+    flex: 1;
+}
+
+.additionalInfo {
+    margin-top: 20px;
+}
+
+.additionalInfo ul {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    gap: 20px;
+}
+
+.additionalInfo li {
+    font-size: var(--font-size-base);
+}
