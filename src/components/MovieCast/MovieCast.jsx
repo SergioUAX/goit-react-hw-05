@@ -1,5 +1,6 @@
 import styles from './MovieCast.module.css';
 import Loader from '../Loader/Loader';
+import default_img from '../../images/default_img.jpg';
 
 const MovieCast = ({ cast, loading }) => {
   if (loading) return <Loader />;
@@ -12,7 +13,7 @@ const MovieCast = ({ cast, loading }) => {
       {cast.map(({ id, profile_path, name, character }) => (
         <li key={id}>
           <img
-            src={profile_path ? `https://image.tmdb.org/t/p/w200${profile_path}` : 'https://via.placeholder.com/100x150'}
+            src={profile_path ? `https://image.tmdb.org/t/p/w200${profile_path}` : default_img}
             alt={name}
             width={100}
           />

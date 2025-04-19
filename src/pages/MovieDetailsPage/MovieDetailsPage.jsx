@@ -1,6 +1,7 @@
 import { useParams, useLocation, useNavigate, Outlet, Link } from 'react-router-dom';
 import styles from './MovieDetailsPage.module.css';
 import Loader from '../../components/Loader/Loader';
+import default_img from '../../images/default_img.jpg';
 
 const MovieDetailsPage = ({ movie, loading }) => {
   const { movieId } = useParams();
@@ -26,7 +27,7 @@ const MovieDetailsPage = ({ movie, loading }) => {
   const releaseYear = release_date ? new Date(release_date).getFullYear() : 'N/A';
   const imageUrl = poster_path
     ? `https://image.tmdb.org/t/p/w300${poster_path}`
-    : 'https://via.placeholder.com/300x450';
+    : default_img;
 
   return (
     <div className={styles.moviedetailspage}>

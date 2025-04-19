@@ -1,6 +1,7 @@
 import styles from './NotFoundPage.module.css';
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import default_img from '../../images/default_img.jpg';
 
 const NotFoundPage = () => {
   const navigate = useNavigate();
@@ -15,7 +16,8 @@ const NotFoundPage = () => {
 
   return (
         <div className={styles.notfoundpage}>
-            <h2>Page not found! Redirecting to Home Page in 3 seconds ...</h2>
+      <h2>Page not found! Redirecting to Home Page in 3 seconds ...</h2>
+      <img src={ default_img} alt="RWGFY" />
         </div>
     );
 };
