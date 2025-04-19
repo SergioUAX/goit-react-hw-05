@@ -1,6 +1,5 @@
 .searchbar {
-    display: flex;
-    gap: 10px;
+    display: flex;      
     margin-bottom: 20px;
 }
 
@@ -9,5 +8,6 @@
 }
 
 .searchbar button {
+    margin-left: 20px;
     flex-shrink: 0;
 }

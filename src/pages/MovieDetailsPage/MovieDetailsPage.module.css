@@ -2,6 +2,10 @@
     padding: 20px;
 }
 
+.moviedetailspage button {
+    margin-bottom: 20px;
+}
+
 .detailsContainer {
     display: flex;
     flex-direction: row;
@@ -10,7 +14,10 @@
 }
 
 .detailsContainer img {
-    width: 300px;
+    width: 100%;
+    max-width: 300px;
+    min-width: 200px;    
+    height: auto;    
     border-radius: var(--border-radius);
 }
 

@@ -7,6 +7,7 @@
 }
 
 .movielist li {
+    font-size: 14px;    
     padding: 10px;
     background-color: var(--color-gray);
     border-radius: var(--border-radius);

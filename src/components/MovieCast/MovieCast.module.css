@@ -15,3 +15,9 @@
     width: 100%;
     border-radius: var(--border-radius);
 }
+
+.moviecast li p {
+    font-size: 12px; 
+    color: var(--color-light);
+    margin: 0;
+}

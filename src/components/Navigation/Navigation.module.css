@@ -2,11 +2,11 @@
     display: flex;
     gap: 20px;
     padding: 20px;
-    background-color: var(--color-dark);
+    background: linear-gradient(to bottom, #221f1f 95%, #828181 100%);
 }
 
 .link {
-    font-size: var(--font-size-base);
+    font-size: 20px;    
     color: var(--color-white);
     transition: color var(--transition-duration);
 }

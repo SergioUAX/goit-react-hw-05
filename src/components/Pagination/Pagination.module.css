@@ -9,3 +9,23 @@
 .pagination p {
     margin: 0;
 }
+
+.pagination button {
+    width: 100px;
+    padding: 10px;
+    border-radius: var(--border-radius);
+    background-color: var(--color-primary);
+    color: var(--color-white);
+    border: none;
+    cursor: pointer;
+    transition: background-color var(--transition-duration);
+}
+
+.pagination button:hover {
+    background-color: #b20710;
+}
+
+.pagination button:disabled {
+    background-color: #555;
+    cursor: not-allowed;
+}
