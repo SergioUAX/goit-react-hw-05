@@ -1,22 +1,10 @@
-import { useParams } from 'react-router-dom';
-import { useEffect, useState } from 'react';
-import fetchMovies from '../../tmdb-api';
 import styles from './MovieReviews.module.css';
+import Loader from '../Loader/Loader';
 
-const MovieReviews = () => {
-  const { movieId } = useParams();
-  const [reviews, setReviews] = useState([]);
-
-  useEffect(() => {
-    const fetchReviews = async () => {
-      const data = await fetchMovies('reviews', movieId, 1 );
-      setReviews(data.results || []);
-    };
-    fetchReviews();
-  }, [movieId]);
-
-  if (reviews.length === 0) {
-    return <p>We don’t have any reviews for this movie.</p>;
+const MovieReviews = ({ reviews, loading }) => {
+  if (loading) return <Loader />;
+  if (!loading && (!reviews || reviews.length === 0)) {
+    return <p>We don't have any reviews for this movie.</p>;
   }
 
   return (

@@ -6,7 +6,7 @@ import Pagination from '../../components/Pagination/Pagination';
 
 const HomePage = ({ movies, loading, currentPage, totalPages, onPageChange}) => {
     const location = useLocation();
-    
+
     return (
         <div className={styles.homepage}>
             <h2>Trending today</h2>

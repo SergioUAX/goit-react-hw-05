@@ -1,21 +1,9 @@
-import { useParams } from 'react-router-dom';
-import { useEffect, useState } from 'react';
-import fetchMovies from '../../tmdb-api';
 import styles from './MovieCast.module.css';
+import Loader from '../Loader/Loader';
 
-const MovieCast = () => {
-  const { movieId } = useParams();
-  const [cast, setCast] = useState([]);
-
-  useEffect(() => {
-    const fetchCast = async () => {
-      const data = await fetchMovies('cast', movieId, 1);
-      setCast(data.cast || []);
-    };
-    fetchCast();
-  }, [movieId]);
-
-  if (cast.length === 0) {
+const MovieCast = ({ cast, loading }) => {
+  if (loading) return <Loader />;
+  if (!loading && (!cast || cast.length === 0)) {
     return <p>No cast information available.</p>;
   }
 
