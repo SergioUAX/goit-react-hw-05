@@ -1,4 +1,4 @@
-import { Routes, Route, useLocation, useNavigate, useSearchParams } from "react-router-dom";
+import { Routes, Route, useLocation, useSearchParams } from "react-router-dom";
 import { useState, useEffect, lazy, Suspense } from "react";
 import { Toaster } from "react-hot-toast";
 
@@ -15,27 +15,21 @@ const MovieReviews = lazy(() => import("../MovieReviews/MovieReviews"));
 const NotFoundPage = lazy(() => import("../../pages/NotFoundPage/NotFoundPage"));
 
 function App() {
-  const location = useLocation();
-  const navigate = useNavigate();
+  const location = useLocation();  
   const [searchParams, setSearchParams] = useSearchParams();
-
-  const queryParam = searchParams.get("query") || "";
-  const pageParam = parseInt(searchParams.get("page") || "1", 10);
-
   const [movies, setMovies] = useState([]);
   const [movieDetails, setMovieDetails] = useState(null);
   const [cast, setCast] = useState([]);
   const [reviews, setReviews] = useState([]);
-
   const [loading, setLoading] = useState(false);
   const [castLoading, setCastLoading] = useState(false);
   const [reviewsLoading, setReviewsLoading] = useState(false);
-
   const [totalPages, setTotalPages] = useState(1);
 
   const movieId = location.pathname.startsWith("/movies/") ? location.pathname.split("/")[2] : null;
-
-  // Сброс при смене фильма
+  const queryParam = searchParams.get("query") || "";
+  const pageParam = parseInt(searchParams.get("page") || "1", 10);
+  
   useEffect(() => {
     setCast([]);
     setReviews([]);
@@ -79,8 +73,6 @@ function App() {
 
   const loadMovieDetailsData = () => {
     if (!movieId) return;
-
-    // Загружаем всегда, чтобы данные были актуальны
     loadData("id", movieId);
 
     if (location.pathname.includes("cast")) {
