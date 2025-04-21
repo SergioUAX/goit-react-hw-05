@@ -1,8 +1,6 @@
-import { Routes, Route, useLocation, useSearchParams } from "react-router-dom";
-import { useState, useEffect, lazy, Suspense } from "react";
+import { Routes, Route } from "react-router-dom";
+import { lazy, Suspense } from "react";
 import { Toaster } from "react-hot-toast";
-
-import ErrorMessage from "../ErrorMessage/ErrorMessage";
 import Loader from "../Loader/Loader";
 import Navigation from "../Navigation/Navigation";
 

@@ -1,4 +1,4 @@
-import { Link, useLocation } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import styles from './MovieList.module.css';
 
 const MovieList = ({ movies }) => {

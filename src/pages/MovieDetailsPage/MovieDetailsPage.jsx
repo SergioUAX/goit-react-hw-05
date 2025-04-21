@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useParams, useLocation, useNavigate, Outlet, NavLink } from 'react-router-dom';
+import { useParams, Outlet, Link } from 'react-router-dom';
 import styles from './MovieDetailsPage.module.css';
 import Loader from '../../components/Loader/Loader';
 import default_img from '../../images/default_img.jpg';
@@ -22,8 +22,7 @@ const MovieDetailsPage = () => {
   const releaseYear = release_date
     ? new Date(release_date).getFullYear() : 'N/A';
   const imageUrl = poster_path
-    ? `https://image.tmdb.org/t/p/w300${poster_path}`
-    : default_img;
+    ? `https://image.tmdb.org/t/p/w300${poster_path}` : default_img;
   const voteInPercent = vote_average
     ? `${Math.round(vote_average * 10)} %` : 'N/A';
   
@@ -53,44 +52,29 @@ const MovieDetailsPage = () => {
                 src={imageUrl}
                 alt={title || 'Movie Poster'}
               />
-
               <div className={styles.movieInfo}>
                 <h2>{title} ({releaseYear})</h2>
                 <p><strong>User Score: </strong>{voteInPercent}</p>
                 <h3>Overview</h3>
                 <p>{overview}</p>
-
                 <h3>Genres</h3>
-                <p>
-                  {genres.length > 0
+                <p>{genres.length > 0
                     ? genres.map(g => <span key={g.name}>{g.name} </span>)
                     : 'No genres available'}
                 </p>
               </div>
             </div>
-
             <div className={styles.additionalInfo}>
-              <h4>Additional information {movieId}</h4>
+              <h4>Additional information</h4>
               <ul>
-                <li>
-                  {/* <NavLink to={`/movies/${movieId}/cast`} state={{ from: location.state?.from }}> */}
-                  <NavLink to='cast' >
-                    Cast
-                  </NavLink>
-                </li>
-                <li>
-                  {/* <NavLink to={`/movies/${movieId}/reviews`} state={{ from: location.state?.from }}> */}
-                  <NavLink to='reviews'>
-                    Reviews
-                  </NavLink>
-                </li>
+                <li><Link to='cast' >Cast</Link></li>
+                <li><Link to='reviews'>Reviews</Link></li>
               </ul>
             </div>
             <Outlet />
           </div>        
       }
-      </div> 
-            
+      </div>             
   );
 };
 
