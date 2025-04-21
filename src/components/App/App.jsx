@@ -11,8 +11,7 @@ const MovieCast = lazy(() => import("../MovieCast/MovieCast"));
 const MovieReviews = lazy(() => import("../MovieReviews/MovieReviews"));
 const NotFoundPage = lazy(() => import("../../pages/NotFoundPage/NotFoundPage"));
 
-function App() {
-  
+function App() {  
   return (
     <Suspense fallback={<Loader />}>
       <Navigation />

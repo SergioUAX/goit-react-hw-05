@@ -1,11 +1,10 @@
 import styles from './SearchBar.module.css';
 
-const SearchBar = ({ onSearch }) => {
+const SearchBar = ({ onSearchTopic }) => {
   const handleSubmit = (evt) => {
     evt.preventDefault();
-    const form = evt.target;
-    const topic = form.elements.topic.value;
-    onSearch(topic.trim());
+    const form = evt.target;    
+    onSearchTopic(form.elements.topic.value.trim());
     form.reset();
   };
 
@@ -26,3 +25,4 @@ const SearchBar = ({ onSearch }) => {
 };
 
 export default SearchBar;
+

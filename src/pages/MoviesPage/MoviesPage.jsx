@@ -1,56 +1,51 @@
-import fetchMovies from "../../tmdb-api";
-import { useEffect } from "react";
+import styles from './MoviesPage.module.css';
+import { useState, useEffect } from "react";
+import { useSearchParams } from 'react-router-dom';
 import SearchBar from "../../components/SearchBar/SearchBar";
 import MovieList from "../../components/MovieList/MovieList";
 import Loader from "../../components/Loader/Loader";
+import fetchMovies from "../../tmdb-api";
 import Pagination from "../../components/Pagination/Pagination";
 import ErrorMessage from "../../components/ErrorMessage/ErrorMessage";
 
-function MoviesPage({
-  movies,
-  setMovies,
-  loading,
-  setLoading,
-  currentPage,
-  queryParam,
-  totalPages,
-  setTotalPages,
-  onSearchParamsChange,
-  onPageChange,
-}) {
-  // useEffect(() => {
-  //   const loadSearchResults = async () => {
-  //     if (!queryParam.trim()) return;
+function MoviesPage() {  
+  const [loading, setLoading] = useState(false);
+  const [movies, setMovies] = useState([]);
+  const [searchParams, setSearchParams] = useSearchParams();
+  const topic = searchParams.get('query') ?? '';
 
-  //     try {
-  //       setLoading(true);
-  //       const data = await fetchMovies("search", queryParam, currentPage);
-  //       setMovies(data.results || []);
-  //       setTotalPages(data.total_pages || 1);
-  //     } catch (err) {
-  //       ErrorMessage(err.message);
-  //     } finally {
-  //       setLoading(false);
-  //     }
-  //   };
+  useEffect(() => {
+    const loadMoviesByTopic = async () => {
+      try {
+        setLoading(true);
+        const data = await fetchMovies('search', topic, 1);
+        setMovies(data.results);
+        //setTotalPages(data.total_pages || 1);
+      } catch (error) {
+        console.error('Failed to load movies by topic: "',topic, '" with error: ', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    loadMoviesByTopic();
+  }, [topic]);
 
-  //   loadSearchResults();
-  // }, [queryParam, currentPage, setLoading, setMovies, setTotalPages]);
-
-  const handleSearch = (query) => {
-    // if (!query.trim()) {
-    //   ErrorMessage("Please enter a search topic !!!");
-    //   return;
-    // }
-    // onSearchParamsChange({ query: query.trim(), page: "1" });
+   const handleSearchTopic = (topic) => {
+    if (!topic) {
+      ErrorMessage('Please enter a search topic !!!');
+      searchParams.delete('query');      
+      return setSearchParams(searchParams);      
+     }     
+     searchParams.set('query', topic);
+     setSearchParams(searchParams);
   };
 
   return (
-    <>
-      <SearchBar onSubmit={handleSearch} />
-      {/* {loading ? <Loader /> : <MovieList movies={movies} />}
-      <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={onPageChange} /> */}
-    </>
+    <div className={styles.moviespage}>
+      <SearchBar onSearchTopic = {handleSearchTopic} />
+      {loading ? <Loader /> : <MovieList movies={movies} />}
+      {/* <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={onPageChange} />  */}
+    </div>
   );
 }
 

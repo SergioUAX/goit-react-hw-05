@@ -1,5 +1,5 @@
-import { useState, useEffect } from 'react';
-import { useParams, Outlet, Link } from 'react-router-dom';
+import { useState, useEffect, useRef } from 'react';
+import { useParams, Outlet, Link, useLocation } from 'react-router-dom';
 import styles from './MovieDetailsPage.module.css';
 import Loader from '../../components/Loader/Loader';
 import default_img from '../../images/default_img.jpg';
@@ -9,7 +9,9 @@ const MovieDetailsPage = () => {
   const { movieId } = useParams();
   const [loading, setLoading] = useState(false);
   const [movie, setMovie] = useState({});
-
+  const location = useLocation();
+  const goBackRef = useRef(location.state ?? '/movies');
+    
   const {
     poster_path,
     title,
@@ -46,7 +48,7 @@ const MovieDetailsPage = () => {
       {loading && <Loader />}
       {!loading &&        
           <div className={styles.moviedetailspage}>
-            {/* <button onClick={handleGoBack}>← Go back</button> */}
+          <Link to = {goBackRef.current}>Go back</Link>
             <div className={styles.detailsContainer}>
               <img
                 src={imageUrl}
