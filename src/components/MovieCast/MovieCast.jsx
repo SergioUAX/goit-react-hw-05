@@ -1,62 +1,35 @@
-// import styles from './MovieCast.module.css';
-// import Loader from '../Loader/Loader';
-// import default_img from '../../images/default_img.jpg';
-
-// const MovieCast = ({ cast, loading }) => {
-//   if (loading) return <Loader />;
-//   if (!loading && (!cast || cast.length === 0)) {
-//     return <p>No cast information available.</p>;
-//   }
-
-//   return (
-//     <ul className={styles.moviecast}>
-//       {cast.map(({ id, profile_path, name, character }) => (
-//         <li key={id}>
-//           <img
-//             src={profile_path ? `https://image.tmdb.org/t/p/w200${profile_path}` : default_img}
-//             alt={name}
-//             width={100}
-//           />
-//           <p><strong>{name}</strong></p>
-//           <p>Character: {character}</p>
-//         </li>
-//       ))}
-//     </ul>
-//   );
-// };
-
-// export default MovieCast;
-
-import fetchMovies from "../../tmdb-api";
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
 import Loader from "../Loader/Loader";
 import styles from "./MovieCast.module.css";
 import default_img from "../../images/default_img.jpg";
+import fetchMovies from "../../tmdb-api";
 
-function MovieCast({ cast, setCast, loading, setLoading }) {
-  // const movieId = window.location.pathname.split("/")[2];
+function MovieCast() {
+  const { movieId } = useParams();
+  const [casts, setCasts] = useState([]);
+  const [loading, setLoading] = useState(false);
 
-  // useEffect(() => {
-  //   const loadCast = async () => {
-  //     try {
-  //       setLoading(true);
-  //       const data = await fetchMovies("cast", movieId);
-  //       setCast(data.cast || []);
-  //     } catch (error) {
-  //       console.error("Error fetching cast data:", error);
-  //     } finally {
-  //       setLoading(false);
-  //     }
-  //   };
-
-  //   loadCast();
-  // }, [movieId, setCast, setLoading]);
+  useEffect(() => {
+    const loadCasts = async () => {
+      try {
+        setLoading(true);       
+        const data = await fetchMovies("cast", movieId, null);
+        setCasts(data.cast);        
+      } catch (error) {
+        console.error("Error fetching cast data:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    loadCasts();
+  }, [movieId]);
 
   return (
     <div className={styles.castList}>
       <p>Movie cast</p>
-      {/* {loading ? <Loader /> : (
-        cast.length > 0 ? cast.map(actor => (
+      {loading ? <Loader /> : (
+        casts.length > 0 ? casts.map(actor => (
           <div key={actor.id} className={styles.card}>
             <img
               src={actor.profile_path ? `https://image.tmdb.org/t/p/w200${actor.profile_path}` : default_img}
@@ -69,7 +42,7 @@ function MovieCast({ cast, setCast, loading, setLoading }) {
             </div>
           </div>
         )) : <p>Cast information is not available.</p>
-      )} */}
+      )}
     </div>
   );
 }

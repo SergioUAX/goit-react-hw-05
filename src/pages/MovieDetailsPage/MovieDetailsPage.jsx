@@ -31,7 +31,7 @@ const MovieDetailsPage = () => {
     const loadMovieById = async () => {
       try {
         setLoading(true);
-        const data = await fetchMovies('id', movieId, 1);
+        const data = await fetchMovies('id', movieId, null);
         setMovie(data);
       } catch (error) {
         console.error('Failed to load movie by ID:', movieId, ' with error: ', error);
