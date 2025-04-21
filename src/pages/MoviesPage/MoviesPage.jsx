@@ -1,31 +1,57 @@
-import { useLocation } from 'react-router-dom';
-import styles from './MoviesPage.module.css';
-import SearchBar from '../../components/SearchBar/SearchBar';
-import MovieList from '../../components/MovieList/MovieList';
-import Loader from '../../components/Loader/Loader';
-import Pagination from '../../components/Pagination/Pagination';
+import fetchMovies from "../../tmdb-api";
+import { useEffect } from "react";
+import SearchBar from "../../components/SearchBar/SearchBar";
+import MovieList from "../../components/MovieList/MovieList";
+import Loader from "../../components/Loader/Loader";
+import Pagination from "../../components/Pagination/Pagination";
+import ErrorMessage from "../../components/ErrorMessage/ErrorMessage";
 
-const MoviesPage = ({ movies, loading, onSearch, currentPage, totalPages, onPageChange }) => {
-  const location = useLocation();
+function MoviesPage({
+  movies,
+  setMovies,
+  loading,
+  setLoading,
+  currentPage,
+  queryParam,
+  totalPages,
+  setTotalPages,
+  onSearchParamsChange,
+  onPageChange,
+}) {
+  // useEffect(() => {
+  //   const loadSearchResults = async () => {
+  //     if (!queryParam.trim()) return;
+
+  //     try {
+  //       setLoading(true);
+  //       const data = await fetchMovies("search", queryParam, currentPage);
+  //       setMovies(data.results || []);
+  //       setTotalPages(data.total_pages || 1);
+  //     } catch (err) {
+  //       ErrorMessage(err.message);
+  //     } finally {
+  //       setLoading(false);
+  //     }
+  //   };
+
+  //   loadSearchResults();
+  // }, [queryParam, currentPage, setLoading, setMovies, setTotalPages]);
+
+  const handleSearch = (query) => {
+    // if (!query.trim()) {
+    //   ErrorMessage("Please enter a search topic !!!");
+    //   return;
+    // }
+    // onSearchParamsChange({ query: query.trim(), page: "1" });
+  };
 
   return (
-    <div className={styles.moviespage}>
-      <SearchBar onSearch={onSearch} />
-      {loading && <Loader />}
-      {movies.length > 0 && !loading && (
-        <>
-          <MovieList movies={movies} state={{ from: location }} />
-          {totalPages > 1 && (
-            <Pagination
-              currentPage={currentPage}
-              totalPages={totalPages}
-              onPageChange={onPageChange}
-            />
-          )}
-        </>
-      )}
-    </div>
+    <>
+      <SearchBar onSubmit={handleSearch} />
+      {/* {loading ? <Loader /> : <MovieList movies={movies} />}
+      <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={onPageChange} /> */}
+    </>
   );
-};
+}
 
 export default MoviesPage;

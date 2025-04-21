@@ -7,15 +7,20 @@ const buildLinkClass = ({ isActive }) => {
 };
 
 const Navigation = () => {
-    return (
+  return (
+      <header className={styles.header}>
         <nav className={styles.navigation}>
         <NavLink to="/" className={buildLinkClass}>
           Home
         </NavLink>
         <NavLink to="/movies" className={buildLinkClass}>
           Movies
-        </NavLink>        
-    </nav>
+        </NavLink> 
+        <NavLink to="/moviedetails" className={buildLinkClass}>
+          Movie Details
+        </NavLink> 
+      </nav>
+      </header>
     );
 };
 

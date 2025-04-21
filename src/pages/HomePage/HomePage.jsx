@@ -1,26 +1,37 @@
-import { useLocation } from 'react-router-dom';
-import styles from './HomePage.module.css';
-import MovieList from '../../components/MovieList/MovieList';
-import Loader from '../../components/Loader/Loader';
-import Pagination from '../../components/Pagination/Pagination';
+import fetchMovies from "../../tmdb-api";
+import { useState, useEffect } from "react";
+import MovieList from "../../components/MovieList/MovieList";
+import Loader from "../../components/Loader/Loader";
+import Pagination from "../../components/Pagination/Pagination";
 
-const HomePage = ({ movies, loading, currentPage, totalPages, onPageChange}) => {
-    const location = useLocation();
+function HomePage({ }) {
+    const [loading, setLoading] = useState(false);
+    const [movies, setMovies] = useState([]);
 
-    return (
-        <div className={styles.homepage}>
-            <h2>Trending today</h2>
-            {loading && <Loader />}
-            {movies.length > 0 && !loading && <MovieList movies={movies} state={{ from: location }}/>}    
-            {totalPages > 1 && !loading && (
-                <Pagination
-                    currentPage={currentPage}
-                    totalPages={totalPages}
-                    onPageChange={onPageChange}
-                />
-            )}
-        </div>
-    );
-};
+  useEffect(() => {
+    const loadTrendingMovies = async () => {
+      try {
+        setLoading(true);
+        const data = await fetchMovies('trending', '', 1);
+        setMovies(data.results || []);
+        //setTotalPages(data.total_pages || 1);
+      } catch (error) {
+        console.error('Failed to load trending movies:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadTrendingMovies();
+  }, []);
+
+  return (
+      <>
+          <h2>HomePage</h2>
+          {loading ? <Loader /> : <MovieList movies={movies} />}
+      {/* <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={onPageChange} /> */}
+    </>
+  );
+}
 
 export default HomePage;
