@@ -28,10 +28,6 @@ a {
     transition: color var(--transition-duration);
 }
 
-a:hover {
-    color: var(--color-primary);
-}
-
 button {
     background-color: var(--color-primary);
     color: var(--color-white);

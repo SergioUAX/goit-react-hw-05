@@ -32,10 +32,27 @@
 .additionalInfo ul {
     list-style: none;
     padding: 0;
-    display: flex;
+    display: flex;    
     gap: 20px;
 }
 
 .additionalInfo li {
     font-size: var(--font-size-base);
+}
+
+.goBackButton {
+    display: inline-block;
+    margin-bottom: 10px;
+    text-align: center;
+    text-decoration: none;
+    width: 100px;
+    padding: 10px;
+    border-radius: var(--border-radius);
+    background-color: var(--color-primary);
+    color: var(--color-white);
+    transition: background-color var(--transition-duration);
+}
+
+.goBackButton:hover {
+    background-color: #b20710;
 }

@@ -26,24 +26,31 @@ function MovieCast() {
   }, [movieId]);
 
   return (
-    <div className={styles.castList}>
-      <p>Movie cast</p>
-      {loading ? <Loader /> : (
-        casts.length > 0 ? casts.map(actor => (
-          <div key={actor.id} className={styles.card}>
-            <img
-              src={actor.profile_path ? `https://image.tmdb.org/t/p/w200${actor.profile_path}` : default_img}
-              alt={actor.name}
-              className={styles.image}
-            />
-            <div className={styles.info}>
-              <p>{actor.name}</p>
-              <p className={styles.character}>Character: {actor.character}</p>
+    <div className={styles.moviecast}>      
+      {loading ? (<Loader />) : (
+        casts.length > 0 ? (
+          <div className={styles.moviecastlist}>
+            {casts.map(actor => (
+              <div key={actor.id} className={styles.moviecastcard}>
+                <img
+                  src={actor.profile_path
+                    ? `https://image.tmdb.org/t/p/w200${actor.profile_path}`
+                    : default_img}
+                  alt={actor.name}
+                  className={styles.moviecastimage}
+                />
+                <div className={styles.moviecastinfo}>
+                  <p>{actor.name}</p>
+                  {actor.character && <p className={styles.character}>Character: {actor.character}</p>}
             </div>
           </div>
-        )) : <p>Cast information is not available.</p>
-      )}
-    </div>
+        ))}
+      </div>
+    ) : (
+      <p>Cast information is not available.</p>
+    )
+  )}
+</div>
   );
 }
 

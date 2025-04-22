@@ -14,13 +14,16 @@ function MoviesPage() {
   const [searchParams, setSearchParams] = useSearchParams();
   const topic = searchParams.get('query') ?? '';
 
+  const currentPage = parseInt(searchParams.get('page')) || 1;  
+  const [totalPages, setTotalPages] = useState(1);
+
   useEffect(() => {
     const loadMoviesByTopic = async () => {
       try {
         setLoading(true);
-        const data = await fetchMovies('search', topic, 1);
+        const data = await fetchMovies('search', topic, currentPage);
         setMovies(data.results);
-        //setTotalPages(data.total_pages || 1);
+        setTotalPages(data.total_pages || 1);
       } catch (error) {
         console.error('Failed to load movies by topic: "',topic, '" with error: ', error);
       } finally {
@@ -28,23 +31,35 @@ function MoviesPage() {
       }
     };
     loadMoviesByTopic();
-  }, [topic]);
+  }, [topic, currentPage]);
 
    const handleSearchTopic = (topic) => {
     if (!topic) {
       ErrorMessage('Please enter a search topic !!!');
-      searchParams.delete('query');      
+      searchParams.delete('query');
+      searchParams.delete('page');      
       return setSearchParams(searchParams);      
      }     
      searchParams.set('query', topic);
-     setSearchParams(searchParams);
+     searchParams.set('page', 1);
+     setSearchParams(searchParams);     
+  };
+
+  const handlePageChange = (page) => {    
+    if (page < 1 || page > totalPages) return;    
+    searchParams.set('page', page);
+    setSearchParams(searchParams);
   };
 
   return (
     <div className={styles.moviespage}>
       <SearchBar onSearchTopic = {handleSearchTopic} />
       {loading ? <Loader /> : <MovieList movies={movies} />}
-      {/* <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={onPageChange} />  */}
+      {!loading && movies.length>0 && <Pagination
+        currentPage={currentPage}
+        totalPages={totalPages}
+        onPageChange={handlePageChange}
+      />}
     </div>
   );
 }

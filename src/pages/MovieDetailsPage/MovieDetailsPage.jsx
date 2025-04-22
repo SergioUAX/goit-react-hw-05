@@ -48,7 +48,10 @@ const MovieDetailsPage = () => {
       {loading && <Loader />}
       {!loading &&        
           <div className={styles.moviedetailspage}>
-          <Link to = {goBackRef.current}>Go back</Link>
+          <Link to={goBackRef.current}
+            className={styles.goBackButton} >
+            Go back
+          </Link>
             <div className={styles.detailsContainer}>
               <img
                 src={imageUrl}
